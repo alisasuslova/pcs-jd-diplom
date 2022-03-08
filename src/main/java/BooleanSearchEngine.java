@@ -56,10 +56,10 @@ public class BooleanSearchEngine implements SearchEngine {
                 listAllPages.add(mapOnePage); // Лист из Мар для всех страниц, всех документов, 87 элементов-страниц в листе
             }
         }
-        mapResult = modify(listAllPages); // 41
+        mapResult = modify(listAllPages);
         System.out.println(mapResult);
-        System.out.println(listAllPages.size());
-        System.out.println(mapResult.size());
+        System.out.println(listAllPages.size()); //87
+        System.out.println(mapResult.size()); // 41
     }
 
     public HashMap<String, ArrayList<PageEntry>> modify(List<Map<String, PageEntry>> listAllPages) {
@@ -86,6 +86,7 @@ public class BooleanSearchEngine implements SearchEngine {
 
     @Override
     public List<PageEntry> search(String word)  {
+        word = "ошибок";
         ArrayList<PageEntry> list = new ArrayList<>();
         System.out.println("SEARCH: ");
 
