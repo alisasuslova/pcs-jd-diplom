@@ -8,7 +8,6 @@ import java.net.Socket;
 public class Main {
     public static void main(String[] args) throws Exception {
         BooleanSearchEngine engine = new BooleanSearchEngine(new File("pdfs"));
-        //System.out.println(engine.search("бизнес"));
 
         int port = 8989;
         System.out.println("Запуск сервера " + port + "...");

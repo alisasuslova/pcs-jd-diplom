@@ -15,36 +15,36 @@ public class BooleanSearchEngine implements SearchEngine {
         HashMap<String, PageEntry> mapOnePage = new HashMap<>();
 
         try {
-            File dir = new File(String.valueOf(pdfsDir)); //путь указывает на директорию
-            File[] fileArray = dir.listFiles(); //содержимое папки, все файлы в одном массиве
+            File dir = new File(String.valueOf(pdfsDir));
+            File[] fileArray = dir.listFiles();
 
-            String fileName; // для PageEntry, поля pdfName
-            int numberOfPage;  // для PageEntry, поля page
-            int countOfWords;  // для PageEntry, поля count
+            String fileName;
+            int numberOfPage;
+            int countOfWords;
 
 
-            for (int i = 0; i < fileArray.length; i++) { // для каждого документа в директории "pdfs"
-                var doc = new PdfDocument(new PdfReader(fileArray[i])); //создаем объект pdf-документа, pdf-файл целиком, для каждого из файлов в директории
-                int numberOfPages = doc.getNumberOfPages(); // получаем кол-во страниц в этом pdf-документе
-                fileName = fileArray[i].toString(); //дальше для PageEntry, поля pdfName
+            for (int i = 0; i < fileArray.length; i++) {
+                var doc = new PdfDocument(new PdfReader(fileArray[i]));
+                int numberOfPages = doc.getNumberOfPages();
+                fileName = fileArray[i].toString();
 
-                for (int j = 1; j < numberOfPages + 1; j++) { // для одного документа листаем все его страницы, получаем все страницы как отдельные объекты. 1 и +1 империчеким путем
-                    numberOfPage = j; // номер страницы для PageEntry, поля page
-                    PdfPage onePage = doc.getPage(j); // onePage - получили объект одной страницы документа
-                    var text = PdfTextExtractor.getTextFromPage(onePage); //получили текст с этой страницы
-                    var words = text.split("\\P{IsAlphabetic}+"); // разбиваем текст на слова, получаем массив слов на одной странице
+                for (int j = 1; j < numberOfPages + 1; j++) {
+                    numberOfPage = j;
+                    PdfPage onePage = doc.getPage(j);
+                    var text = PdfTextExtractor.getTextFromPage(onePage);
+                    var words = text.split("\\P{IsAlphabetic}+");
 
-                    HashMap<String, Integer> mapWordsCounts = unique(words);// Map уникальных слов и их количество для одной страницы
+                    HashMap<String, Integer> mapWordsCounts = unique(words);
 
                     PageEntry pageEntry;
                     List <PageEntry> listValues = new ArrayList<>();
 
                     List<String> tempListKeys = new ArrayList<>(mapWordsCounts.keySet());
                     for (int k = 0; k < tempListKeys.size(); k++) {
-                        String tempWord = tempListKeys.get(k); //key
+                        String tempWord = tempListKeys.get(k);
                         countOfWords = mapWordsCounts.get(tempWord);
-                        pageEntry = new PageEntry(fileName, numberOfPage, countOfWords); // value
-                        mapOnePage.put(tempWord, pageEntry); // Map для одной страницы
+                        pageEntry = new PageEntry(fileName, numberOfPage, countOfWords);
+                        mapOnePage.put(tempWord, pageEntry);
                         if (!mapResult.containsKey(tempWord)) {
                             listValues = new ArrayList<>();
                             listValues.add(pageEntry);
@@ -68,7 +68,7 @@ public class BooleanSearchEngine implements SearchEngine {
         return mapResult.get(word);
     }
 
-    public static HashMap<String, Integer> unique(String[] words) { //работает правильно!
+    public static HashMap<String, Integer> unique(String[] words) {
 
         HashSet<String> distinctKey = new HashSet<>();
         HashMap<String, Integer> map = new HashMap<>();
